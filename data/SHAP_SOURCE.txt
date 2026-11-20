@@ -1,0 +1,40 @@
+Corrected topology-identity SHAP calculation
+
+The results supplied here are exact CSV copies of the completed 2026-11-17
+calculation with topology-genome identity corrected throughout stage 1.
+The final text/table check and the 20 updated SHAP panels use this result set.
+
+Stage 1 uses 3,136 unique MOFseq inputs. Every topology_genome value is checked
+against the normalized numerical <T> field. Samples are grouped by that genome,
+never by an old name or a historical figure label. The 627 distinct genomes
+have unique one-to-one topology_name labels in this input. Ambiguous mappings
+and mismatching genome fields cause an error. The obsolete historical grouping
+column has been removed; all other original input fields and row order remain.
+
+The topology field is one binary feature: its exact Shapley contribution is the
+complete prediction minus the prediction with all numerical topology tokens
+masked by 0 while other fields remain fixed. Labels are applied only after
+genome-level counts and SHAP statistics have been calculated.
+topology_groups.csv records all genome/name/count mappings. Reported panels
+show the ten highest means among groups with n >= 15. Table S9 compares both
+targets for the selectivity-ranked ten groups.
+
+Examples of corrections: sql is 180, not 175; flu is 77, with the distinct
+flu-e genome counted separately (n=2). The old sqc display group combined
+ten genomes; none individually meets n >= 15, so it is not retained in the
+top-ten plot. ant (n=36) is the new tenth selectivity-ranked group.
+
+Stage 2 directly explains all 161 standard dia inputs, excluding dia-f.
+The 161 records are exactly the standard-dia subset of the 3,136 inputs.
+Kernel SHAP uses identity link, nsamples=auto, l1_reg=0.0, prediction batch
+size 128, and NumPy seed 42 reset separately for each target. Family values
+are summed within a MOF and averaged over unique MOFs containing the family.
+The single eightfold-interpenetrated dia sample is analyzed but not plotted
+under the n >= 3 rule; the displayed interpenetration groups therefore total 160.
+
+The two supplied seed-521 model weights, core prediction/masking functions,
+and stage-2 attribution code are unchanged. The scripts evaluate the models;
+they do not load result CSVs as answers. Model/input/code/output hashes and
+software versions are in results/SHAP_run_manifest.json. Future calculations
+go to results/recomputed. Other hardware or versions may cause small numerical
+differences; the supplied full-precision CSVs identify this fixed run.
